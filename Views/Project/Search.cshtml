@@ -1,0 +1,66 @@
+﻿@model IEnumerable<e_Project.Models.Project>
+@{
+    ViewData["Title"] = "Search Results";
+}
+<form asp-controller="Project" asp-action="Search">
+    <div class="row height justify-content-center align-items-center form-inline">
+        <div class="col-md-auto">
+            <div class="search">
+                <div style="display: inline-block;"><input type="text" class="form-control" placeholder="Enter string" name="subString"></div>
+                <div style="display: inline-block;">
+                    <input type="submit" value="Search" class="btn btn-primary" style="display: inline-block;">
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+@ViewBag.message
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Title)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Author)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ProgrammingLanguage)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Status)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Author)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProgrammingLanguage)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

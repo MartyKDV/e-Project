@@ -19,8 +19,7 @@ namespace e_Project.Controllers
         {
             _logger = logger;
             _context = context;
-        }
-
+        } 
         public IActionResult Index()
         {
             var data = _context.projects.Where(p => p.Status == "Complete");

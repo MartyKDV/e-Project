@@ -40,23 +40,39 @@
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Author)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProgrammingLanguage)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                @if (Context.Request.Cookies["loginCookie"] != null)
+                {
                     <td>
-                        @Html.DisplayFor(modelItem => item.Title)
+                        <form id="formEdit" style="display: inline-block;">
+                            <input type="submit" class="btn btn-primary" asp-controller="Project" asp-action="Edit" asp-route-id="@item.Id" value="Edit" />
+                        </form>
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Description)
+                        @if (item.Status != "In-progress")
+                        {
+                            <form id="formDelete" style="display: inline-block;">
+                                <input type="submit" class="btn btn-primary" asp-controller="Project" asp-action="ConfirmDelete" asp-route-id="@item.Id" value="Delete" />
+                            </form>
+                        }
                     </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Author)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ProgrammingLanguage)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Status)
-                    </td>
-                </tr>
+                }
+            </tr>
             }
         </tbody>
     </table>

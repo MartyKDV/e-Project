@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<e_Project.Models.Project>
 
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home";
 }
 
 <div class="text-center">
@@ -10,53 +10,69 @@
 <br />
 <br />
 <h1>Most Recent Projects</h1>
-<div class="table-responsive">
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Title)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Description)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Author)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ProgrammingLanguage)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Status)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Author)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProgrammingLanguage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Author)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProgrammingLanguage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            @if (Context.Request.Cookies["loginCookie"] != null)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Title)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Description)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Author)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ProgrammingLanguage)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Status)
-                    </td>             
-                </tr>
+                <td>
+                    <form id="formEdit" style="display: inline-block;">
+                        <input type="submit" class="btn btn-primary" asp-controller="Project" asp-action="Edit" asp-route-id="@item.Id" value="Edit" />
+                    </form>
+                </td>
+                <td>
+                    @if (item.Status != "In-progress")
+                    {
+                        <form id="formDelete" style="display: inline-block;">
+                            <input type="submit" class="btn btn-primary" asp-controller="Project" asp-action="ConfirmDelete" asp-route-id="@item.Id" value="Delete" />
+                        </form>
+                    }
+                </td>
             }
-        </tbody>
-    </table>
-</div>
+
+        </tr>
+        }
+    </tbody>
+</table>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+

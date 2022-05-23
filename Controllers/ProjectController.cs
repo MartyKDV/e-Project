@@ -29,10 +29,36 @@ namespace e_Project.Controllers
             _context.SaveChanges();
             return RedirectToAction(actionName: "Index", controllerName: "Home");
         }
-
-        public IActionResult Delete(Project project)
+        public IActionResult ConfirmDelete(int Id)
         {
-            return View();
+            var project = _context.projects.Where(p => p.Id == Id).First();
+            ViewBag.returnURL = Request.Headers["Referer"].ToString();
+            return View(project);
+        }
+        public IActionResult Delete(int Id)
+        {
+            var project = _context.projects.Where(p => p.Id == Id).First();
+            _context.projects.Remove(project);
+            _context.SaveChanges();
+            return RedirectToAction("Index", "Home");
+        }
+        public IActionResult Edit(int Id)
+        {
+            var project = _context.projects.Where(p => p.Id == Id).First();
+            ViewBag.returnURL = Request.Headers["Referer"].ToString();
+            return View(project);
+        }
+        [HttpPost]
+        public IActionResult Edit(Project project)
+        {
+            _context.projects.Where(p => p.Id == project.Id).First().ProgrammingLanguage = project.ProgrammingLanguage;
+            _context.projects.Where(p => p.Id == project.Id).First().Status = project.Status;
+            _context.projects.Where(p => p.Id == project.Id).First().Title = project.Title;
+            _context.projects.Where(p => p.Id == project.Id).First().Description = project.Description;
+            _context.projects.Where(p => p.Id == project.Id).First().Author = project.Author;
+            _context.SaveChanges();
+
+            return RedirectToAction("Index", "Home");
         }
         public IActionResult Search(string subString)
         {
